@@ -1,0 +1,62 @@
+function listEventsAndEmail() {
+  // Define variables
+  var calendarId = 'your_calendar_id_here'; // Replace with your calendar ID
+  var recipientEmail = 'recipient_email_here'; // Replace with the recipient's email address
+  var subjectPrefix = 'Team Events: Next '; // Prefix for subject line
+  var days = 30; // Number of days for event retrieval and email subject
+  
+  // List of specific users (creators) you want to filter by
+  var specificUsers = [
+    'user1@example.com',
+    'user2@example.com', 
+    'user3@example.com',
+    'user4@example.com',
+    'user5@example.com',
+    'user6@example.com',
+    'user7@example.com',
+    'user8@example.com'
+  ];
+
+  // Calculate end date based on the number of days
+  var now = new Date();
+  var endDate = new Date();
+  endDate.setDate(now.getDate() + days);
+
+  // Get calendar and events
+  var calendar = CalendarApp.getCalendarById(calendarId);
+  var events = calendar.getEvents(now, endDate);
+
+  // Initialize the email content with a table header
+  var emailContent = '<table border="1" cellpadding="5"><tr><th>Event Title</th><th>Creator Email</th><th>Dates</th></tr>';
+
+  // Iterate through events
+  for (var i = 0; i < events.length; i++) {
+    var event = events[i];
+    var creators = event.getCreators(); // Get an array of creators (usually one)
+
+    // Check if there are creators and access the email directly
+    var creatorEmail = creators && creators.length > 0 ? creators[0] : 'No Creator Information';
+
+    // Format event dates
+    var eventDates = [event.getStartTime(), event.getEndTime()]; // Start time and End time
+    var formattedDates = eventDates.map(function(date) {
+      return Utilities.formatDate(date, 'GMT', 'MMMM d, yyyy');
+    });
+
+    // Filter events based on specific users
+    if (specificUsers.includes(creatorEmail)) {
+      // Create a table row with three columns for each event
+      emailContent += '<tr><td>' + event.getTitle() + '</td><td>' + creatorEmail + '</td><td>' + formattedDates.join(' - ') + '</td></tr>';
+    }
+  }
+
+  emailContent += '</table>'; // Closing table tag
+
+  // Send the email with HTML formatting
+  var subject = subjectPrefix + days + ' Days';
+  MailApp.sendEmail({
+    to: recipientEmail,
+    subject: subject,
+    htmlBody: emailContent // Use htmlBody to enable HTML formatting
+  });
+}
