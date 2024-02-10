@@ -7,11 +7,16 @@ Go to https://script.google.com/home
 Click ‘New script’
 
 Paste in this script and replace the following variable:  
-  var calendarId = 'your_calendar_id_here'; // Replace with your calendar ID
-  var recipientEmail = 'recipient_email_here'; // Replace with the recipient's email address
-  var subjectPrefix = 'Team PTO: Next '; // Prefix for subject line
-  var days = 30; // Number of days for event retrieval and email subject
-  var specificUsers = [ ]; // List of specific user email addresses (creators) you want to filter by, comma-separated
+
+  var calendarId = '`your_calendar_id_here`'; // Replace with your calendar ID
+  
+  var recipientEmail = '`recipient_email_here`'; // Replace with the recipient's email address
+  
+  var subjectPrefix = '`Team PTO: Next `'; // Prefix for subject line
+  
+  var days = `30`; // Number of days for event retrieval and email subject
+  
+  var specificUsers = [` `]; // List of specific user email addresses (creators) you want to filter by, comma-separated
 
 Save the project.
 
